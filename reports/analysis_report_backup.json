@@ -1,0 +1,20 @@
+{
+    "capture_file": "empty-test.pcap",
+    "analysis_time": "2026-10-25T13:21:07.302104+05:30",
+    "total_packets": 0,
+    "ipv4_packets": 0,
+    "ipv6_packets": 0,
+    "tcp_packets": 0,
+    "udp_packets": 0,
+    "icmp_packets": 0,
+    "other_packets": 0,
+    "protocol_distribution": {},
+    "top_source_ips": {},
+    "top_destination_ips": {},
+    "top_destination_ports": {},
+    "dns_packet_count": 0,
+    "dns_queries": {},
+    "http_request_count": 0,
+    "http_response_count": 0,
+    "http_requests": []
+}
