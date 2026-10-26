@@ -87,7 +87,7 @@ The application uses packages including Streamlit, Scapy, Pandas, and Plotly. Ru
 Replace `YOUR-USERNAME` with your GitHub username after publishing the repository.
 
 ```powershell
-git clone https://github.com/unfr4ctured/mini_soc_lab.git
+git clone https://github.com/unfr4ctured/NetSleuth-PCAP-Analyzer.git
 cd NetSleuth-PCAP-Analyzer
 ```
 
