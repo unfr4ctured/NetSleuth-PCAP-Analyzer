@@ -224,39 +224,6 @@ Packet captures and reports may contain sensitive network information, including
 - Network service information and communication patterns.
 - Other metadata useful for reconstructing network activity.
 
-Before sharing or publishing reports:
-
-- Use synthetic or sanitized packet captures for demonstrations.
-- Do not commit confidential organizational or personal traffic captures.
-- Review exported reports for credentials, tokens, personal information, and other sensitive data.
-- Ensure `.gitignore` excludes local reports and sensitive capture files where appropriate.
-- Review any files before uploading them to public repositories or third-party services.
-
-Example `.gitignore` entries:
-
-```gitignore
-.venv/
-__pycache__/
-*.py[cod]
-.pytest_cache/
-
-# Local analysis data
-reports/*
-!reports/.gitkeep
-
-# Packet captures
-*.pcap
-*.pcapng
-*.cap
-
-# Environment and local secrets
-.env
-.env.*
-!.env.example
-```
-
-Adjust these patterns to match the files your project intentionally tracks. The `.env.example` exception is appropriate only if that file contains placeholders rather than secrets.
-
 ## Detection Scope & Limitations
 
 NetSleuth uses rule-based heuristics and depends on the visibility and quality of the available packet-capture data.
