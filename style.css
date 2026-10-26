@@ -4,7 +4,7 @@
    Save as: style.css (project root, beside app.py)
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
     --ns-bg: #061316;
@@ -22,7 +22,7 @@
     --ns-text: #e7fffb;
     --ns-muted: #ffffff;
     --ns-danger: #fb7185;
-    --ns-warning: #fbbf24;
+    --ns-warning: var(--ns-teal);
     --ns-radius: 18px;
     --ns-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
 }
@@ -38,7 +38,7 @@ html {
         radial-gradient(ellipse at 92% 18%, rgba(103, 232, 249, 0.075), transparent 30%),
         radial-gradient(ellipse at 60% 100%, rgba(167, 139, 250, 0.06), transparent 35%),
         var(--ns-bg);
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     overflow-x: hidden;
 }
 
@@ -195,7 +195,7 @@ html {
 .ns-tagline {
     margin-top: .5rem;
     color: var(--ns-muted);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: .69rem;
     letter-spacing: .14em;
     line-height: 1.7;
@@ -217,7 +217,7 @@ html {
     border-radius: 999px;
     background: rgba(3, 18, 21, 0.48);
     color: #b8d6d3;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: .66rem;
     letter-spacing: .055em;
     transition: border-color .25s ease, background .25s ease, transform .25s ease;
@@ -241,8 +241,8 @@ html {
 }
 
 .ns-dot.idle {
-    background: var(--ns-warning);
-    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.08), 0 0 12px rgba(251, 191, 36, 0.5);
+    background: var(--ns-teal);
+    box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.08), 0 0 12px rgba(45, 212, 191, 0.5);
 }
 
 .ns-footer {
@@ -254,7 +254,7 @@ html {
     padding-top: 1rem;
     border-top: 1px solid rgba(73, 220, 201, 0.13);
     color: #6f9997;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: .64rem;
     letter-spacing: .09em;
 }
@@ -283,7 +283,7 @@ h1, h2, h3, h4 {
 /* Section title utility classes, if used in app.py */
 .ns-section-kicker {
     color: var(--ns-teal);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: .68rem;
     letter-spacing: .16em;
     text-transform: uppercase;
@@ -420,6 +420,92 @@ h1, h2, h3, h4 {
 [data-baseweb="option"]:hover {
     background: rgba(45, 212, 191, .13) !important;
 }
+
+
+
+/* =========================================================
+   Teal interactive controls
+   Replace Streamlit's default orange/red selection accents.
+   ========================================================= */
+
+/* Native controls and browser-rendered focus accents */
+.stApp {
+    accent-color: var(--ns-teal);
+    --primary-color: var(--ns-teal);
+    --st-primary-color: var(--ns-teal);
+}
+
+.stApp input[type="checkbox"],
+.stApp input[type="radio"],
+.stApp input[type="range"] {
+    accent-color: var(--ns-teal) !important;
+}
+
+/* Sidebar navigation and radio-group selected indicators */
+[data-testid="stRadio"] label,
+[data-testid="stRadio"] [role="radio"] {
+    accent-color: var(--ns-teal) !important;
+}
+
+[data-testid="stRadio"] [role="radio"][aria-checked="true"],
+[data-baseweb="radio"] [role="radio"][aria-checked="true"] {
+    border-color: var(--ns-teal) !important;
+}
+
+/* BaseWeb's custom radio and checkbox controls */
+[data-baseweb="radio"]:has(input:checked) > div:first-child,
+[data-testid="stRadio"] label:has(input:checked) > div:first-child {
+    border-color: var(--ns-teal) !important;
+}
+
+[data-baseweb="radio"]:has(input:checked) > div:first-child > div,
+[data-testid="stRadio"] label:has(input:checked) > div:first-child > div {
+    background-color: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+}
+
+[data-baseweb="checkbox"]:has(input:checked) > div:first-child,
+[data-testid="stCheckbox"] label:has(input:checked) > div:first-child {
+    background-color: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+}
+
+/* Slider thumb, selected track, and focus state */
+[data-testid="stSlider"] [role="slider"] {
+    background-color: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.16) !important;
+}
+
+[data-testid="stSlider"] input[type="range"] {
+    accent-color: var(--ns-teal) !important;
+}
+
+/* Selected dropdown/multiselect options and chips */
+[data-baseweb="option"][aria-selected="true"],
+[data-baseweb="option"][aria-selected="true"]:hover {
+    color: var(--ns-text) !important;
+    background: rgba(45, 212, 191, 0.18) !important;
+}
+
+[data-baseweb="tag"] {
+    color: var(--ns-text) !important;
+    background: rgba(45, 212, 191, 0.16) !important;
+    border: 1px solid rgba(45, 212, 191, 0.38) !important;
+}
+
+/* Focus rings for selectable controls */
+.stApp button:focus-visible,
+.stApp input:focus-visible,
+.stApp textarea:focus-visible,
+.stApp [role="radio"]:focus-visible,
+.stApp [role="checkbox"]:focus-visible,
+.stApp [role="combobox"]:focus-visible,
+.stApp [role="slider"]:focus-visible {
+    outline: 2px solid var(--ns-teal) !important;
+    outline-offset: 2px;
+}
+
 
 /* Tabs */
 button[data-baseweb="tab"] {
@@ -627,4 +713,258 @@ pre {
         flex-direction: column;
         font-size: .58rem;
     }
+}
+
+/* =========================================================
+   NetSleuth typography refresh
+   Display/UI: Space Grotesk; technical labels: IBM Plex Mono.
+   Keep body copy readable while giving headings and controls
+   a stronger, more deliberate visual hierarchy.
+   ========================================================= */
+
+:root {
+    --ns-font-ui: 'Space Grotesk', sans-serif;
+    --ns-font-mono: 'IBM Plex Mono', monospace;
+}
+
+html,
+body,
+.stApp,
+.stApp button,
+.stApp input,
+.stApp textarea,
+.stApp select,
+.stApp [role="button"],
+.stApp [data-testid="stMarkdownContainer"],
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stCaptionContainer"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 500;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+}
+
+/* Bold, distinctive page and section headings */
+.stApp h1,
+.stApp h2,
+.stApp h3,
+.stApp h4,
+.stApp [data-testid="stHeading"] h1,
+.stApp [data-testid="stHeading"] h2,
+.stApp [data-testid="stHeading"] h3 {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.045em !important;
+}
+
+/* Body copy: medium weight for better contrast without visual clutter */
+.stApp [data-testid="stMarkdownContainer"] p,
+.stApp [data-testid="stMarkdownContainer"] li,
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stAlert"] {
+    font-weight: 500;
+}
+
+/* Widget labels and options should look intentional and easy to scan */
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stWidgetLabel"] p,
+.stApp [data-testid="stRadio"] label,
+.stApp [data-testid="stCheckbox"] label,
+.stApp [data-testid="stMultiSelect"] label,
+.stApp [data-testid="stSelectbox"] label,
+.stApp [data-testid="stNumberInput"] label,
+.stApp [data-testid="stTextInput"] label,
+.stApp [data-testid="stSlider"] label,
+.stApp [data-testid="stFileUploader"] label {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar navigation emphasis */
+[data-testid="stSidebar"] [data-testid="stRadio"] label,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] button {
+    font-weight: 600 !important;
+}
+
+/* Metric labels and values */
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] p {
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+}
+
+[data-testid="stMetricValue"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.05em;
+}
+
+/* Buttons, upload controls and download actions */
+.stButton > button,
+.stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button,
+[data-testid="stFileUploader"] button {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.005em;
+}
+
+/* Use a technical monospace face only for system-status metadata */
+.ns-tagline,
+.ns-status,
+.ns-footer,
+.ns-section-kicker,
+[data-testid="stCode"] code,
+pre,
+code {
+    font-family: var(--ns-font-mono) !important;
+}
+
+.ns-tagline,
+.ns-status,
+.ns-footer,
+.ns-section-kicker {
+    font-weight: 600;
+}
+
+/* Select values, text fields and slider labels */
+.stApp input,
+.stApp textarea,
+.stApp [data-baseweb="select"],
+.stApp [data-testid="stSlider"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 500;
+}
+
+/* Streamlit can render selected values in nested spans */
+.stApp [data-baseweb="tag"],
+.stApp [data-baseweb="tag"] span,
+.stApp [role="option"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 600 !important;
+}
+
+/* FINAL PRIMARY-COLOR OVERRIDES — Streamlit/BaseWeb widgets */
+/* Streamlit's primaryColor is also set in .streamlit/config.toml.
+   These rules cover the component DOM rendered by BaseWeb. */
+:root,
+.stApp,
+[data-testid="stAppViewContainer"] {
+    --primary-color: #2dd4bf !important;
+    --st-primary-color: #2dd4bf !important;
+    accent-color: #2dd4bf !important;
+}
+
+/* Radio groups: selected circle and inner dot */
+.stApp [data-testid="stRadio"] input[type="radio"],
+.stApp [data-testid="stRadio"] [role="radio"] {
+    accent-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input:checked) > div:first-child,
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input[aria-checked="true"]) > div:first-child,
+.stApp [data-testid="stRadio"] label:has(input:checked) > div:first-child,
+.stApp [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child {
+    border-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input:checked) > div:first-child > div,
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input[aria-checked="true"]) > div:first-child > div,
+.stApp [data-testid="stRadio"] label:has(input:checked) > div:first-child > div,
+.stApp [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child > div {
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+}
+
+/* Checkboxes */
+.stApp [data-testid="stCheckbox"] input[type="checkbox"],
+.stApp [data-baseweb="checkbox"] input[type="checkbox"] {
+    accent-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stCheckbox"] label:has(input:checked) > div:first-child,
+.stApp [data-baseweb="checkbox"]:has(input:checked) > div:first-child {
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+}
+
+/* Slider: track fill, thumb, and native range fallback */
+.stApp [data-testid="stSlider"] input[type="range"],
+.stApp [data-baseweb="slider"] input[type="range"] {
+    accent-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stSlider"] [role="slider"],
+.stApp [data-baseweb="slider"] [role="slider"] {
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, .16) !important;
+}
+
+.stApp [data-testid="stSlider"] [data-baseweb="slider"] div[style*="background-color: rgb(255, 75, 75)"],
+.stApp [data-baseweb="slider"] div[style*="background-color: rgb(255, 75, 75)"],
+.stApp [data-testid="stSlider"] [data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"],
+.stApp [data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"] {
+    background-color: #2dd4bf !important;
+    background: #2dd4bf !important;
+}
+
+/* Multiselect selected-value chips and their close icons */
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"],
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] > span,
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] > div {
+    color: #032725 !important;
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] svg {
+    color: #032725 !important;
+    fill: #032725 !important;
+}
+
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] button {
+    color: #032725 !important;
+    background: transparent !important;
+}
+
+/* Selected dropdown options */
+.stApp [data-baseweb="option"][aria-selected="true"],
+.stApp [data-baseweb="option"][aria-selected="true"]:hover {
+    color: #e7fffb !important;
+    background-color: rgba(45, 212, 191, .22) !important;
+}
+
+/* Text and number input focus borders. This includes the outer BaseWeb
+   input wrapper, which can otherwise retain the theme's red outline. */
+.stApp [data-baseweb="input"]:focus-within,
+.stApp [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within,
+.stApp [data-testid="stTextInput"] [data-baseweb="input"]:focus-within,
+.stApp [data-testid="stTextArea"] [data-baseweb="textarea"]:focus-within,
+.stApp [data-testid="stNumberInput"]:focus-within input,
+.stApp [data-testid="stTextInput"]:focus-within input,
+.stApp [data-testid="stTextArea"]:focus-within textarea {
+    border-color: #2dd4bf !important;
+    outline-color: #2dd4bf !important;
+    box-shadow: 0 0 0 1px #2dd4bf !important;
+}
+
+.stApp [data-testid="stNumberInput"] button:focus,
+.stApp [data-testid="stNumberInput"] button:focus-visible {
+    border-color: #2dd4bf !important;
+    color: #5fffea !important;
+    outline-color: #2dd4bf !important;
+}
+
+/* All interactive focus rings use the project teal. */
+.stApp button:focus-visible,
+.stApp input:focus-visible,
+.stApp textarea:focus-visible,
+.stApp [role="radio"]:focus-visible,
+.stApp [role="checkbox"]:focus-visible,
+.stApp [role="combobox"]:focus-visible,
+.stApp [role="slider"]:focus-visible {
+    outline: 2px solid #2dd4bf !important;
+    outline-offset: 2px !important;
 }
