@@ -1,0 +1,1573 @@
+/* =========================================================
+   NetSleuth — Teal Command Center UI
+   Palette: deep ocean navy + teal + mint + restrained violet
+   Save as: style.css (project root, beside app.py)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --ns-bg: #061316;
+    --ns-bg-soft: #091c20;
+    --ns-panel: rgba(10, 31, 35, 0.78);
+    --ns-panel-strong: rgba(11, 37, 41, 0.94);
+    --ns-panel-hover: rgba(13, 48, 51, 0.94);
+    --ns-border: rgba(73, 220, 201, 0.16);
+    --ns-border-hot: rgba(73, 220, 201, 0.42);
+    --ns-teal: #2dd4bf;
+    --ns-teal-bright: #5fffea;
+    --ns-mint: #a7f3d0;
+    --ns-cyan: #67e8f9;
+    --ns-violet: #a78bfa;
+    --ns-text: #e7fffb;
+    --ns-muted: #ffffff;
+    --ns-danger: #fb7185;
+    --ns-warning: var(--ns-teal);
+    --ns-radius: 18px;
+    --ns-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.stApp {
+    color: var(--ns-text);
+    background:
+        radial-gradient(ellipse at 10% 0%, rgba(45, 212, 191, 0.12), transparent 34%),
+        radial-gradient(ellipse at 92% 18%, rgba(103, 232, 249, 0.075), transparent 30%),
+        radial-gradient(ellipse at 60% 100%, rgba(167, 139, 250, 0.06), transparent 35%),
+        var(--ns-bg);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Slow ambient color movement behind the app */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: -30%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 22% 32%, rgba(45, 212, 191, 0.055), transparent 22%),
+        radial-gradient(circle at 76% 58%, rgba(103, 232, 249, 0.045), transparent 24%);
+    animation: ns-ambient-drift 22s ease-in-out infinite alternate;
+}
+
+[data-testid="stAppViewContainer"],
+[data-testid="stHeader"],
+[data-testid="stSidebar"],
+[data-testid="stMain"],
+.block-container {
+    position: relative;
+    z-index: 1;
+}
+
+.block-container {
+    max-width: 1480px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* Streamlit header */
+[data-testid="stHeader"] {
+    background: rgba(6, 19, 22, 0.72);
+    backdrop-filter: blur(16px);
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, rgba(7, 25, 29, 0.98), rgba(5, 18, 21, 0.98));
+    border-right: 1px solid var(--ns-border);
+}
+
+[data-testid="stSidebar"] > div:first-child {
+    padding-top: 1.35rem;
+}
+
+[data-testid="stSidebar"] * {
+    color: var(--ns-text);
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+    color: var(--ns-muted);
+}
+
+[data-testid="stSidebar"] hr {
+    border-color: var(--ns-border);
+}
+
+[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+    background: rgba(45, 212, 191, 0.045);
+    border: 1px dashed rgba(45, 212, 191, 0.35);
+    border-radius: 14px;
+    transition: border-color .25s ease, background .25s ease, transform .25s ease;
+}
+
+[data-testid="stSidebar"] [data-testid="stFileUploader"] section:hover {
+    border-color: var(--ns-teal-bright);
+    background: rgba(45, 212, 191, 0.085);
+    transform: translateY(-2px);
+}
+
+/* Brand / hero header */
+.ns-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: 0 0 1.7rem;
+    padding: clamp(1.25rem, 3vw, 2.2rem);
+    border: 1px solid var(--ns-border-hot);
+    border-radius: 24px;
+    background:
+        linear-gradient(115deg, rgba(11, 42, 45, 0.97), rgba(8, 25, 31, 0.95) 56%, rgba(15, 32, 48, 0.96));
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    animation: ns-rise-in .7s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.ns-hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -40% -10%;
+    background: conic-gradient(from 180deg at 50% 50%,
+        transparent 0deg,
+        rgba(45, 212, 191, 0.12) 70deg,
+        transparent 135deg,
+        rgba(103, 232, 249, 0.08) 220deg,
+        transparent 300deg);
+    filter: blur(25px);
+    animation: ns-orbit-glow 18s linear infinite;
+}
+
+.ns-hero::after {
+    content: "";
+    position: absolute;
+    left: -20%;
+    top: 0;
+    width: 38%;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(95, 255, 234, 0.055), transparent);
+    transform: skewX(-18deg);
+    animation: ns-scan-sweep 8s ease-in-out infinite;
+}
+
+.ns-brand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin-bottom: 1.55rem;
+}
+
+.ns-logo {
+    display: grid;
+    place-items: center;
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    border-radius: 19px;
+    border: 1px solid rgba(95, 255, 234, 0.62);
+    color: #042322;
+    background: linear-gradient(135deg, var(--ns-teal-bright), var(--ns-teal) 60%, #14b8a6);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.08em;
+    box-shadow: 0 0 0 6px rgba(45, 212, 191, 0.055), 0 0 32px rgba(45, 212, 191, 0.22);
+    animation: ns-logo-breathe 4s ease-in-out infinite;
+}
+
+.ns-name {
+    color: var(--ns-text);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.065em;
+    line-height: 1.05;
+}
+
+.ns-name span {
+    color: var(--ns-teal);
+    text-shadow: 0 0 28px rgba(45, 212, 191, 0.18);
+}
+
+.ns-tagline {
+    margin-top: .5rem;
+    color: var(--ns-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .69rem;
+    letter-spacing: .14em;
+    line-height: 1.7;
+}
+
+.ns-status-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-top: .25rem;
+}
+
+.ns-status {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .62rem .85rem;
+    border: 1px solid var(--ns-border);
+    border-radius: 999px;
+    background: rgba(3, 18, 21, 0.48);
+    color: #b8d6d3;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .66rem;
+    letter-spacing: .055em;
+    transition: border-color .25s ease, background .25s ease, transform .25s ease;
+}
+
+.ns-status:hover {
+    transform: translateY(-2px);
+    border-color: var(--ns-border-hot);
+    background: rgba(45, 212, 191, 0.07);
+}
+
+.ns-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-radius: 50%;
+    background: var(--ns-teal-bright);
+    box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.09), 0 0 13px rgba(45, 212, 191, 0.7);
+    animation: ns-dot-pulse 2.1s ease-in-out infinite;
+}
+
+.ns-dot.idle {
+    background: var(--ns-teal);
+    box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.08), 0 0 12px rgba(45, 212, 191, 0.5);
+}
+
+.ns-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .7rem 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(73, 220, 201, 0.13);
+    color: #6f9997;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .64rem;
+    letter-spacing: .09em;
+}
+
+.ns-footer strong {
+    color: var(--ns-mint);
+    font-weight: 500;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+    color: var(--ns-text) !important;
+    letter-spacing: -0.035em;
+}
+
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li {
+    color: #bdd2d0;
+    line-height: 1.72;
+}
+
+[data-testid="stCaptionContainer"] {
+    color: var(--ns-muted);
+}
+
+/* Section title utility classes, if used in app.py */
+.ns-section-kicker {
+    color: var(--ns-teal);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.ns-section-title {
+    margin-top: .25rem;
+    color: var(--ns-text);
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -.045em;
+}
+
+/* Metric cards */
+[data-testid="stMetric"] {
+    position: relative;
+    overflow: hidden;
+    padding: 1.15rem 1.2rem;
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+    background: linear-gradient(145deg, rgba(13, 42, 46, .88), rgba(7, 25, 29, .92));
+    box-shadow: var(--ns-shadow);
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+    animation: ns-rise-in .55s ease both;
+}
+
+[data-testid="stMetric"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    width: 76%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(95, 255, 234, .7), transparent);
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-4px);
+    border-color: var(--ns-border-hot);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, .28), 0 0 24px rgba(45, 212, 191, .055);
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--ns-muted) !important;
+    font-size: .8rem !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: var(--ns-teal-bright) !important;
+    font-weight: 800;
+    letter-spacing: -.045em;
+}
+
+/* Buttons */
+.stButton > button,
+.stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button {
+    position: relative;
+    overflow: hidden;
+    min-height: 2.65rem;
+    border: 1px solid rgba(45, 212, 191, .45);
+    border-radius: 11px;
+    color: #032725;
+    background: linear-gradient(120deg, #5fffea, #2dd4bf 55%, #14b8a6);
+    font-weight: 800;
+    box-shadow: 0 5px 20px rgba(45, 212, 191, .11);
+    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+
+.stButton > button::before,
+.stDownloadButton > button::before,
+[data-testid="stFormSubmitButton"] > button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -70%;
+    width: 45%;
+    height: 200%;
+    transform: rotate(22deg);
+    background: rgba(255, 255, 255, .35);
+    transition: left .55s ease;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+[data-testid="stFormSubmitButton"] > button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+    box-shadow: 0 9px 27px rgba(45, 212, 191, .2);
+}
+
+.stButton > button:hover::before,
+.stDownloadButton > button:hover::before,
+[data-testid="stFormSubmitButton"] > button:hover::before {
+    left: 130%;
+}
+
+.stButton > button:active,
+.stDownloadButton > button:active {
+    transform: translateY(0) scale(.99);
+}
+
+/* Inputs and selectors */
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+[data-baseweb="select"] > div,
+[data-testid="stDateInput"] input {
+    color: var(--ns-text) !important;
+    background: rgba(5, 22, 25, .92) !important;
+    border-color: var(--ns-border) !important;
+    border-radius: 10px !important;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.stTextInput input:focus,
+.stNumberInput input:focus,
+.stTextArea textarea:focus {
+    border-color: var(--ns-teal) !important;
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, .1) !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+[data-baseweb="listbox"] {
+    background: #0b2529 !important;
+    border: 1px solid var(--ns-border) !important;
+}
+
+[data-baseweb="option"] {
+    color: var(--ns-text) !important;
+}
+
+[data-baseweb="option"]:hover {
+    background: rgba(45, 212, 191, .13) !important;
+}
+
+
+
+/* =========================================================
+   Teal interactive controls
+   Replace Streamlit's default orange/red selection accents.
+   ========================================================= */
+
+/* Native controls and browser-rendered focus accents */
+.stApp {
+    accent-color: var(--ns-teal);
+    --primary-color: var(--ns-teal);
+    --st-primary-color: var(--ns-teal);
+}
+
+.stApp input[type="checkbox"],
+.stApp input[type="radio"],
+.stApp input[type="range"] {
+    accent-color: var(--ns-teal) !important;
+}
+
+/* Sidebar navigation and radio-group selected indicators */
+[data-testid="stRadio"] label,
+[data-testid="stRadio"] [role="radio"] {
+    accent-color: var(--ns-teal) !important;
+}
+
+[data-testid="stRadio"] [role="radio"][aria-checked="true"],
+[data-baseweb="radio"] [role="radio"][aria-checked="true"] {
+    border-color: var(--ns-teal) !important;
+}
+
+/* BaseWeb's custom radio and checkbox controls */
+[data-baseweb="radio"]:has(input:checked) > div:first-child,
+[data-testid="stRadio"] label:has(input:checked) > div:first-child {
+    border-color: var(--ns-teal) !important;
+}
+
+[data-baseweb="radio"]:has(input:checked) > div:first-child > div,
+[data-testid="stRadio"] label:has(input:checked) > div:first-child > div {
+    background-color: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+}
+
+[data-baseweb="checkbox"]:has(input:checked) > div:first-child,
+[data-testid="stCheckbox"] label:has(input:checked) > div:first-child {
+    background-color: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+}
+
+/* Slider thumb, selected track, and focus state */
+[data-testid="stSlider"] [role="slider"] {
+    background-color: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.16) !important;
+}
+
+[data-testid="stSlider"] input[type="range"] {
+    accent-color: var(--ns-teal) !important;
+}
+
+/* Selected dropdown/multiselect options and chips */
+[data-baseweb="option"][aria-selected="true"],
+[data-baseweb="option"][aria-selected="true"]:hover {
+    color: var(--ns-text) !important;
+    background: rgba(45, 212, 191, 0.18) !important;
+}
+
+[data-baseweb="tag"] {
+    color: var(--ns-text) !important;
+    background: rgba(45, 212, 191, 0.16) !important;
+    border: 1px solid rgba(45, 212, 191, 0.38) !important;
+}
+
+/* Focus rings for selectable controls */
+.stApp button:focus-visible,
+.stApp input:focus-visible,
+.stApp textarea:focus-visible,
+.stApp [role="radio"]:focus-visible,
+.stApp [role="checkbox"]:focus-visible,
+.stApp [role="combobox"]:focus-visible,
+.stApp [role="slider"]:focus-visible {
+    outline: 2px solid var(--ns-teal) !important;
+    outline-offset: 2px;
+}
+
+
+/* Tabs */
+button[data-baseweb="tab"] {
+    color: var(--ns-muted) !important;
+    font-weight: 700;
+    transition: color .2s ease;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: var(--ns-teal-bright) !important;
+}
+
+[data-baseweb="tab-highlight"] {
+    background: var(--ns-teal) !important;
+    box-shadow: 0 0 12px rgba(45, 212, 191, .45);
+}
+
+/* Dataframes / tables */
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+    border: 1px solid var(--ns-border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+[data-testid="stDataFrame"] [role="grid"] {
+    border-radius: 14px;
+}
+
+/* Expanders */
+[data-testid="stExpander"] {
+    border: 1px solid var(--ns-border);
+    border-radius: 14px;
+    background: rgba(8, 29, 33, .65);
+    transition: border-color .25s ease, background .25s ease;
+}
+
+[data-testid="stExpander"]:hover {
+    border-color: var(--ns-border-hot);
+    background: rgba(10, 36, 40, .8);
+}
+
+[data-testid="stExpander"] summary {
+    color: var(--ns-text);
+    font-weight: 700;
+}
+
+/* Alerts and status messages */
+[data-testid="stAlert"] {
+    border-radius: 13px;
+    border: 1px solid var(--ns-border);
+    background: rgba(9, 34, 37, .82);
+}
+
+/* Progress indicators */
+.stProgress > div > div > div > div {
+    background: linear-gradient(90deg, var(--ns-teal), var(--ns-cyan));
+    box-shadow: 0 0 14px rgba(45, 212, 191, .32);
+}
+
+/* Charts and plot containers */
+[data-testid="stPlotlyChart"],
+[data-testid="stVegaLiteChart"] {
+    padding: .45rem;
+    border: 1px solid rgba(73, 220, 201, .11);
+    border-radius: 16px;
+    background: rgba(7, 24, 28, .48);
+    transition: border-color .25s ease, transform .25s ease;
+}
+
+[data-testid="stPlotlyChart"]:hover {
+    border-color: rgba(73, 220, 201, .28);
+}
+
+/* Dividers */
+hr {
+    border-color: rgba(73, 220, 201, .13) !important;
+}
+
+/* Code blocks */
+[data-testid="stCode"],
+pre {
+    border: 1px solid var(--ns-border) !important;
+    border-radius: 12px !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #061316;
+}
+
+::-webkit-scrollbar-thumb {
+    border: 2px solid #061316;
+    border-radius: 999px;
+    background: #1a6865;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ns-teal);
+}
+
+/* Gentle entrance motion for Streamlit content */
+[data-testid="stMainBlockContainer"] > div {
+    animation: ns-content-in .45s ease both;
+}
+
+/* Animations */
+@keyframes ns-ambient-drift {
+    0% { transform: translate3d(-1%, -1%, 0) rotate(0deg); }
+    100% { transform: translate3d(1.5%, 1%, 0) rotate(7deg); }
+}
+
+@keyframes ns-orbit-glow {
+    from { transform: rotate(0deg) scale(1); }
+    to { transform: rotate(360deg) scale(1.08); }
+}
+
+@keyframes ns-scan-sweep {
+    0%, 15% { left: -45%; opacity: 0; }
+    25% { opacity: 1; }
+    55% { left: 120%; opacity: .65; }
+    65%, 100% { left: 120%; opacity: 0; }
+}
+
+@keyframes ns-logo-breathe {
+    0%, 100% { box-shadow: 0 0 0 6px rgba(45, 212, 191, .055), 0 0 26px rgba(45, 212, 191, .18); }
+    50% { box-shadow: 0 0 0 9px rgba(45, 212, 191, .035), 0 0 38px rgba(45, 212, 191, .3); }
+}
+
+@keyframes ns-dot-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .58; transform: scale(.78); }
+}
+
+@keyframes ns-rise-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ns-content-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Accessibility: honor reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* Responsive layout */
+@media (max-width: 760px) {
+    .block-container {
+        padding: 1.1rem .9rem 2rem;
+    }
+
+    .ns-hero {
+        border-radius: 18px;
+        padding: 1.15rem;
+    }
+
+    .ns-brand {
+        align-items: flex-start;
+        gap: .8rem;
+    }
+
+    .ns-logo {
+        flex-basis: 50px;
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+        font-size: 1rem;
+    }
+
+    .ns-name {
+        font-size: 2rem;
+    }
+
+    .ns-tagline {
+        font-size: .58rem;
+        letter-spacing: .08em;
+    }
+
+    .ns-status-row {
+        gap: .45rem;
+    }
+
+    .ns-status {
+        padding: .5rem .65rem;
+        font-size: .59rem;
+    }
+
+    .ns-footer {
+        flex-direction: column;
+        font-size: .58rem;
+    }
+}
+
+/* =========================================================
+   NetSleuth typography refresh
+   Display/UI: Space Grotesk; technical labels: IBM Plex Mono.
+   Keep body copy readable while giving headings and controls
+   a stronger, more deliberate visual hierarchy.
+   ========================================================= */
+
+:root {
+    --ns-font-ui: 'Space Grotesk', sans-serif;
+    --ns-font-mono: 'IBM Plex Mono', monospace;
+}
+
+html,
+body,
+.stApp,
+.stApp button,
+.stApp input,
+.stApp textarea,
+.stApp select,
+.stApp [role="button"],
+.stApp [data-testid="stMarkdownContainer"],
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stCaptionContainer"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 500;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+}
+
+/* Bold, distinctive page and section headings */
+.stApp h1,
+.stApp h2,
+.stApp h3,
+.stApp h4,
+.stApp [data-testid="stHeading"] h1,
+.stApp [data-testid="stHeading"] h2,
+.stApp [data-testid="stHeading"] h3 {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.045em !important;
+}
+
+/* Body copy: medium weight for better contrast without visual clutter */
+.stApp [data-testid="stMarkdownContainer"] p,
+.stApp [data-testid="stMarkdownContainer"] li,
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stAlert"] {
+    font-weight: 500;
+}
+
+/* Widget labels and options should look intentional and easy to scan */
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stWidgetLabel"] p,
+.stApp [data-testid="stRadio"] label,
+.stApp [data-testid="stCheckbox"] label,
+.stApp [data-testid="stMultiSelect"] label,
+.stApp [data-testid="stSelectbox"] label,
+.stApp [data-testid="stNumberInput"] label,
+.stApp [data-testid="stTextInput"] label,
+.stApp [data-testid="stSlider"] label,
+.stApp [data-testid="stFileUploader"] label {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar navigation emphasis */
+[data-testid="stSidebar"] [data-testid="stRadio"] label,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] button {
+    font-weight: 600 !important;
+}
+
+/* Metric labels and values */
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] p {
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+}
+
+[data-testid="stMetricValue"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.05em;
+}
+
+/* Buttons, upload controls and download actions */
+.stButton > button,
+.stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button,
+[data-testid="stFileUploader"] button {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.005em;
+}
+
+/* Use a technical monospace face only for system-status metadata */
+.ns-tagline,
+.ns-status,
+.ns-footer,
+.ns-section-kicker,
+[data-testid="stCode"] code,
+pre,
+code {
+    font-family: var(--ns-font-mono) !important;
+}
+
+.ns-tagline,
+.ns-status,
+.ns-footer,
+.ns-section-kicker {
+    font-weight: 600;
+}
+
+/* Select values, text fields and slider labels */
+.stApp input,
+.stApp textarea,
+.stApp [data-baseweb="select"],
+.stApp [data-testid="stSlider"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 500;
+}
+
+/* Streamlit can render selected values in nested spans */
+.stApp [data-baseweb="tag"],
+.stApp [data-baseweb="tag"] span,
+.stApp [role="option"] {
+    font-family: var(--ns-font-ui) !important;
+    font-weight: 600 !important;
+}
+
+/* FINAL PRIMARY-COLOR OVERRIDES — Streamlit/BaseWeb widgets */
+/* Streamlit's primaryColor is also set in .streamlit/config.toml.
+   These rules cover the component DOM rendered by BaseWeb. */
+:root,
+.stApp,
+[data-testid="stAppViewContainer"] {
+    --primary-color: #2dd4bf !important;
+    --st-primary-color: #2dd4bf !important;
+    accent-color: #2dd4bf !important;
+}
+
+/* Radio groups: selected circle and inner dot */
+.stApp [data-testid="stRadio"] input[type="radio"],
+.stApp [data-testid="stRadio"] [role="radio"] {
+    accent-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input:checked) > div:first-child,
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input[aria-checked="true"]) > div:first-child,
+.stApp [data-testid="stRadio"] label:has(input:checked) > div:first-child,
+.stApp [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child {
+    border-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input:checked) > div:first-child > div,
+.stApp [data-testid="stRadio"] [data-baseweb="radio"]:has(input[aria-checked="true"]) > div:first-child > div,
+.stApp [data-testid="stRadio"] label:has(input:checked) > div:first-child > div,
+.stApp [data-testid="stRadio"] [role="radio"][aria-checked="true"] > div:first-child > div {
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+}
+
+/* Checkboxes */
+.stApp [data-testid="stCheckbox"] input[type="checkbox"],
+.stApp [data-baseweb="checkbox"] input[type="checkbox"] {
+    accent-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stCheckbox"] label:has(input:checked) > div:first-child,
+.stApp [data-baseweb="checkbox"]:has(input:checked) > div:first-child {
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+}
+
+/* Slider: track fill, thumb, and native range fallback */
+.stApp [data-testid="stSlider"] input[type="range"],
+.stApp [data-baseweb="slider"] input[type="range"] {
+    accent-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stSlider"] [role="slider"],
+.stApp [data-baseweb="slider"] [role="slider"] {
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, .16) !important;
+}
+
+.stApp [data-testid="stSlider"] [data-baseweb="slider"] div[style*="background-color: rgb(255, 75, 75)"],
+.stApp [data-baseweb="slider"] div[style*="background-color: rgb(255, 75, 75)"],
+.stApp [data-testid="stSlider"] [data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"],
+.stApp [data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"] {
+    background-color: #2dd4bf !important;
+    background: #2dd4bf !important;
+}
+
+/* Multiselect selected-value chips and their close icons */
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"],
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] > span,
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] > div {
+    color: #032725 !important;
+    background-color: #2dd4bf !important;
+    border-color: #2dd4bf !important;
+}
+
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] svg {
+    color: #032725 !important;
+    fill: #032725 !important;
+}
+
+.stApp [data-testid="stMultiSelect"] [data-baseweb="tag"] button {
+    color: #032725 !important;
+    background: transparent !important;
+}
+
+/* Selected dropdown options */
+.stApp [data-baseweb="option"][aria-selected="true"],
+.stApp [data-baseweb="option"][aria-selected="true"]:hover {
+    color: #e7fffb !important;
+    background-color: rgba(45, 212, 191, .22) !important;
+}
+
+/* Text and number input focus borders. This includes the outer BaseWeb
+   input wrapper, which can otherwise retain the theme's red outline. */
+.stApp [data-baseweb="input"]:focus-within,
+.stApp [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within,
+.stApp [data-testid="stTextInput"] [data-baseweb="input"]:focus-within,
+.stApp [data-testid="stTextArea"] [data-baseweb="textarea"]:focus-within,
+.stApp [data-testid="stNumberInput"]:focus-within input,
+.stApp [data-testid="stTextInput"]:focus-within input,
+.stApp [data-testid="stTextArea"]:focus-within textarea {
+    border-color: #2dd4bf !important;
+    outline-color: #2dd4bf !important;
+    box-shadow: 0 0 0 1px #2dd4bf !important;
+}
+
+.stApp [data-testid="stNumberInput"] button:focus,
+.stApp [data-testid="stNumberInput"] button:focus-visible {
+    border-color: #2dd4bf !important;
+    color: #5fffea !important;
+    outline-color: #2dd4bf !important;
+}
+
+/* All interactive focus rings use the project teal. */
+.stApp button:focus-visible,
+.stApp input:focus-visible,
+.stApp textarea:focus-visible,
+.stApp [role="radio"]:focus-visible,
+.stApp [role="checkbox"]:focus-visible,
+.stApp [role="combobox"]:focus-visible,
+.stApp [role="slider"]:focus-visible {
+    outline: 2px solid #2dd4bf !important;
+    outline-offset: 2px !important;
+}
+
+
+/* =========================================================
+   NetSleuth Professional UI Refresh
+   Consistent spacing, hierarchy, panels and teal interactions
+   ========================================================= */
+
+:root {
+    --ns-bg: #061316;
+    --ns-bg-soft: #091c20;
+    --ns-panel: rgba(10, 31, 35, 0.86);
+    --ns-panel-strong: rgba(11, 37, 41, 0.96);
+    --ns-panel-hover: rgba(13, 48, 51, 0.96);
+    --ns-border: rgba(93, 220, 204, 0.16);
+    --ns-border-hot: rgba(93, 220, 204, 0.38);
+    --ns-teal: #2dd4bf;
+    --ns-teal-bright: #5fffea;
+    --ns-text: #e7fffb;
+    --ns-muted: #a8c1be;
+    --ns-radius: 17px;
+    --ns-shadow: 0 14px 42px rgba(0, 0, 0, 0.22);
+}
+
+.stApp {
+    background:
+        radial-gradient(ellipse at 12% 0%, rgba(45, 212, 191, 0.105), transparent 32%),
+        radial-gradient(ellipse at 90% 12%, rgba(103, 232, 249, 0.045), transparent 27%),
+        #061316;
+}
+
+[data-testid="stMainBlockContainer"] {
+    max-width: 1540px;
+    padding-top: 1.35rem;
+    padding-bottom: 3rem;
+}
+
+/* Premium top identity panel */
+.ns-hero {
+    margin: 0 0 1.3rem;
+    padding: clamp(1.25rem, 2.6vw, 2rem);
+    border: 1px solid rgba(75, 220, 203, .24);
+    border-radius: 23px;
+    background:
+        linear-gradient(118deg, rgba(10, 39, 43, .98), rgba(7, 24, 29, .97) 58%, rgba(9, 31, 38, .98));
+    box-shadow: 0 18px 58px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.ns-hero-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.4rem;
+}
+
+.ns-brand {
+    margin: 0;
+    gap: 1rem;
+}
+
+.ns-logo {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+    border-radius: 17px;
+    font-size: 1.08rem;
+}
+
+.ns-eyebrow,
+.ns-page-kicker,
+.ns-context-label,
+.ns-sidebar-section-label {
+    color: #72aaa3;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .63rem;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+}
+
+.ns-name {
+    margin-top: .12rem;
+    font-size: clamp(2rem, 3.8vw, 2.75rem);
+}
+
+.ns-tagline {
+    margin-top: .35rem;
+    color: #9dbbb7;
+    font-size: .65rem;
+    letter-spacing: .115em;
+}
+
+.ns-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .65rem .85rem;
+    border: 1px solid rgba(45, 212, 191, .2);
+    border-radius: 999px;
+    background: rgba(45, 212, 191, .07);
+    color: #b9e9e2;
+    font: 600 .64rem 'IBM Plex Mono', monospace;
+    letter-spacing: .07em;
+    white-space: nowrap;
+}
+
+.ns-badge-dot,
+.ns-global-footer i {
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--ns-teal);
+    box-shadow: 0 0 12px rgba(45, 212, 191, .7);
+}
+
+.ns-status-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .65rem;
+    margin-top: 1.45rem;
+}
+
+.ns-status {
+    min-width: 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: .45rem .55rem;
+    padding: .7rem .85rem;
+    border-radius: 12px;
+    background: rgba(2, 16, 19, .42);
+}
+
+.ns-status-label {
+    color: #6f9c97;
+    font: 600 .58rem 'IBM Plex Mono', monospace;
+    letter-spacing: .1em;
+}
+
+.ns-status strong {
+    color: #d9f5f0;
+    font: 600 .65rem 'IBM Plex Mono', monospace;
+}
+
+.ns-hero-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .65rem 1.2rem;
+    margin-top: 1.1rem;
+    padding-top: .85rem;
+    border-top: 1px solid rgba(93, 220, 204, .12);
+    color: #6f9997;
+    font: 500 .59rem 'IBM Plex Mono', monospace;
+    letter-spacing: .075em;
+}
+
+.ns-hero-footer b { color: var(--ns-teal); padding: 0 .2rem; }
+
+/* Sidebar workspace */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #081b1f 0%, #061417 100%);
+    border-right: 1px solid rgba(82, 213, 197, .14);
+}
+
+[data-testid="stSidebar"] > div:first-child {
+    padding-top: 1.1rem;
+}
+
+.ns-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin: .25rem 0 1.5rem;
+    padding: .35rem .15rem 1.1rem;
+    border-bottom: 1px solid rgba(93, 220, 204, .12);
+}
+
+.ns-sidebar-mark {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #5fffea, #14b8a6);
+    color: #042322;
+    font-weight: 800;
+    letter-spacing: -.06em;
+    box-shadow: 0 0 22px rgba(45, 212, 191, .16);
+}
+
+.ns-sidebar-name {
+    color: #e7fffb;
+    font: 800 1.15rem 'Space Grotesk', sans-serif;
+    letter-spacing: -.045em;
+}
+
+.ns-sidebar-caption {
+    margin-top: .15rem;
+    color: #6f9e99;
+    font: 600 .56rem 'IBM Plex Mono', monospace;
+    letter-spacing: .12em;
+}
+
+.ns-sidebar-section-label {
+    margin: .35rem 0 .6rem;
+    padding-left: .15rem;
+    color: #6f9e99;
+}
+
+.ns-upload-label { margin-top: 1.25rem; }
+
+[data-testid="stSidebar"] [data-testid="stRadio"] > div {
+    gap: .3rem;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label {
+    padding: .58rem .68rem;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+    border-color: rgba(45, 212, 191, .19);
+    background: rgba(45, 212, 191, .055);
+    transform: translateX(2px);
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
+    border-color: rgba(45, 212, 191, .27);
+    background: linear-gradient(90deg, rgba(45, 212, 191, .14), rgba(45, 212, 191, .045));
+}
+
+[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+    border: 1px dashed rgba(45, 212, 191, .34);
+    border-radius: 13px;
+    background: rgba(45, 212, 191, .045);
+}
+
+/* Consistent page title block */
+.ns-page-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin: .45rem 0 1.25rem;
+    padding: .25rem 0 1.05rem;
+    border-bottom: 1px solid rgba(93, 220, 204, .14);
+}
+
+.ns-page-kicker { margin-bottom: .45rem; }
+.ns-page-kicker span { color: var(--ns-teal); padding: 0 .25rem; }
+
+.ns-page-heading h1 {
+    margin: 0;
+    color: #eafffb;
+    font: 700 clamp(1.65rem, 3vw, 2.2rem) 'Space Grotesk', sans-serif;
+    letter-spacing: -.055em;
+    line-height: 1.12;
+}
+
+.ns-page-heading p {
+    max-width: 760px;
+    margin: .48rem 0 0;
+    color: #9ebbb7;
+    font: 400 .9rem 'Space Grotesk', sans-serif;
+    line-height: 1.55;
+}
+
+.ns-page-index {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .15rem;
+    color: #6a9993;
+    font: 600 .59rem 'IBM Plex Mono', monospace;
+    letter-spacing: .12em;
+    white-space: nowrap;
+}
+
+.ns-page-index strong {
+    color: var(--ns-teal-bright);
+    font: 700 1.55rem 'Space Grotesk', sans-serif;
+    letter-spacing: -.05em;
+}
+
+.ns-page-index small { color: #6a9993; font: 500 .7rem 'IBM Plex Mono', monospace; }
+
+/* Current capture context strip */
+.ns-capture-context {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: .25rem 0 1.25rem;
+    padding: .72rem .9rem;
+    border: 1px solid rgba(93, 220, 204, .13);
+    border-radius: 12px;
+    background: rgba(8, 29, 33, .62);
+}
+
+.ns-context-left { display: flex; align-items: center; gap: .7rem; min-width: 0; }
+.ns-context-icon { color: var(--ns-teal); font-size: 1.15rem; }
+.ns-context-left > div { display: flex; flex-direction: column; gap: .12rem; min-width: 0; }
+.ns-context-left strong { overflow: hidden; color: #d9f5f0; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+.ns-context-right { display: flex; flex-direction: column; align-items: flex-end; gap: .12rem; white-space: nowrap; }
+.ns-context-right strong { color: var(--ns-teal-bright); font: 700 1rem 'IBM Plex Mono', monospace; }
+
+/* Typography and page rhythm */
+[data-testid="stMainBlockContainer"] h2,
+[data-testid="stMainBlockContainer"] h3 {
+    color: #dcf8f3 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -.035em;
+}
+
+[data-testid="stMainBlockContainer"] h2 { margin-top: 1.35rem; margin-bottom: .7rem; }
+[data-testid="stMainBlockContainer"] h3 { margin-top: 1rem; margin-bottom: .55rem; font-size: 1.05rem; }
+[data-testid="stCaptionContainer"] { color: #8eaaa6 !important; }
+
+/* Metric cards */
+[data-testid="stMetric"] {
+    min-height: 112px;
+    padding: 1rem 1.05rem;
+    border: 1px solid rgba(93, 220, 204, .16);
+    border-radius: 15px;
+    background: linear-gradient(145deg, rgba(12, 42, 46, .92), rgba(7, 24, 28, .96));
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .16);
+}
+
+[data-testid="stMetricLabel"] p {
+    color: #92b2ad !important;
+    font: 600 .71rem 'Space Grotesk', sans-serif !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #65f4de !important;
+    font: 700 clamp(1.45rem, 2.1vw, 1.95rem) 'Space Grotesk', sans-serif !important;
+}
+
+/* Chart surfaces and tables */
+[data-testid="stPlotlyChart"] {
+    padding: .35rem;
+    border: 1px solid rgba(93, 220, 204, .14);
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(9, 31, 35, .72), rgba(6, 22, 26, .7));
+}
+
+[data-testid="stDataFrame"], [data-testid="stTable"] {
+    border: 1px solid rgba(93, 220, 204, .15);
+    border-radius: 14px;
+    background: rgba(7, 25, 29, .68);
+}
+
+/* Controls */
+.stButton > button, .stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button {
+    min-height: 2.65rem;
+    border: 1px solid rgba(45, 212, 191, .48) !important;
+    border-radius: 10px !important;
+    background: linear-gradient(120deg, #5fffea, #2dd4bf 58%, #14b8a6) !important;
+    color: #042522 !important;
+    font: 700 .83rem 'Space Grotesk', sans-serif !important;
+}
+
+.stButton > button:hover, .stDownloadButton > button:hover {
+    box-shadow: 0 8px 24px rgba(45, 212, 191, .19) !important;
+    transform: translateY(-1px);
+}
+
+[data-baseweb="tag"] {
+    border: 1px solid rgba(45, 212, 191, .35) !important;
+    background: rgba(45, 212, 191, .15) !important;
+    color: #d8fff8 !important;
+}
+
+[data-baseweb="select"] > div,
+.stTextInput input, .stNumberInput input, .stTextArea textarea {
+    border-color: rgba(93, 220, 204, .22) !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="stSlider"] [role="slider"] {
+    background: var(--ns-teal) !important;
+    border-color: var(--ns-teal) !important;
+}
+
+/* Alerts, expanders, and download areas */
+[data-testid="stAlert"] {
+    border: 1px solid rgba(93, 220, 204, .18);
+    border-radius: 12px;
+    background: rgba(8, 32, 36, .82);
+}
+
+[data-testid="stExpander"] {
+    border: 1px solid rgba(93, 220, 204, .15);
+    border-radius: 13px;
+    background: rgba(8, 29, 33, .58);
+}
+
+.ns-global-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    margin-top: 2rem;
+    padding: .95rem .15rem .2rem;
+    border-top: 1px solid rgba(93, 220, 204, .12);
+    color: #638d88;
+    font: 500 .58rem 'IBM Plex Mono', monospace;
+    letter-spacing: .075em;
+}
+
+.ns-global-footer b { color: #a5d9d1; }
+.ns-global-footer i { margin-left: .4rem; vertical-align: middle; }
+
+/* Responsive adjustments */
+@media (max-width: 850px) {
+    .ns-hero-main { align-items: flex-start; flex-direction: column; }
+    .ns-status-row { grid-template-columns: 1fr; }
+    .ns-page-index { display: none; }
+    .ns-capture-context { align-items: flex-start; flex-direction: column; }
+    .ns-context-right { align-items: flex-start; }
+}
+
+@media (max-width: 600px) {
+    [data-testid="stMainBlockContainer"] { padding: 1rem .85rem 2rem; }
+    .ns-page-heading { margin-top: .2rem; }
+    .ns-page-heading h1 { font-size: 1.65rem; }
+    .ns-hero-footer { flex-direction: column; }
+    .ns-name { font-size: 2rem; }
+}
+
+/* =========================================================
+   NetSleuth — High-contrast readability and UX overrides
+   Primary UI text: pure white (#FFFFFF)
+   ========================================================= */
+:root {
+    --ns-text: #FFFFFF;
+    --ns-muted: #FFFFFF;
+    --ns-body: #FFFFFF;
+}
+
+/* Main application typography */
+.stApp,
+.stApp p,
+.stApp li,
+.stApp label,
+.stApp small,
+.stApp span,
+.stApp strong,
+.stApp summary,
+.stApp [data-testid="stMarkdownContainer"],
+.stApp [data-testid="stMarkdownContainer"] p,
+.stApp [data-testid="stMarkdownContainer"] li,
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stWidgetLabel"] p,
+.stApp [data-testid="stFileUploader"] label,
+.stApp [data-testid="stRadio"] label,
+.stApp [data-testid="stCheckbox"] label,
+.stApp [data-testid="stMultiSelect"] label,
+.stApp [data-testid="stSelectbox"] label,
+.stApp [data-testid="stNumberInput"] label,
+.stApp [data-testid="stTextInput"] label,
+.stApp [data-testid="stSlider"] label {
+    color: #FFFFFF !important;
+}
+
+.stApp h1,
+.stApp h2,
+.stApp h3,
+.stApp h4,
+.stApp h5,
+.stApp h6,
+.stApp [data-testid="stHeading"] {
+    color: #FFFFFF !important;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] *:not(svg):not(path) {
+    color: #FFFFFF !important;
+}
+
+/* Metrics */
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] *,
+[data-testid="stMetricValue"],
+[data-testid="stMetricValue"] * {
+    color: #FFFFFF !important;
+}
+
+/* Inputs, dropdowns and selected values */
+.stApp input,
+.stApp textarea,
+.stApp select,
+.stApp [data-baseweb="select"] *,
+.stApp [data-baseweb="option"],
+.stApp [data-baseweb="tag"],
+.stApp [data-baseweb="tag"] * {
+    color: #FFFFFF !important;
+}
+
+.stApp input::placeholder,
+.stApp textarea::placeholder {
+    color: rgba(255, 255, 255, 0.72) !important;
+    opacity: 1 !important;
+}
+
+/* Tables and dataframe grid */
+[data-testid="stDataFrame"],
+[data-testid="stTable"],
+[data-testid="stDataFrame"] *,
+[data-testid="stTable"] *,
+[data-testid="stDataFrame"] [role="grid"],
+[data-testid="stDataFrame"] [role="row"],
+[data-testid="stDataFrame"] [role="columnheader"],
+[data-testid="stDataFrame"] [role="gridcell"] {
+    color: #FFFFFF !important;
+}
+
+[data-testid="stDataFrame"] {
+    --gdg-text-dark: #FFFFFF !important;
+    --gdg-text-medium: #FFFFFF !important;
+    --gdg-text-light: #FFFFFF !important;
+    --gdg-header-text: #FFFFFF !important;
+}
+
+/* Alerts, expanders and captions */
+[data-testid="stAlert"],
+[data-testid="stAlert"] *,
+[data-testid="stExpander"],
+[data-testid="stExpander"] *,
+[data-testid="stCaptionContainer"] {
+    color: #FFFFFF !important;
+}
+
+/* Branded panels */
+.ns-hero,
+.ns-hero *,
+.ns-page-heading,
+.ns-page-heading *,
+.ns-capture-context,
+.ns-capture-context *,
+.ns-global-footer,
+.ns-global-footer * {
+    color: #FFFFFF !important;
+}
+
+/* Keep intentional teal accents */
+.ns-name span,
+.ns-page-kicker span,
+.ns-page-index strong,
+.ns-context-icon,
+.ns-context-right strong,
+.ns-hero-footer b,
+.ns-global-footer b,
+.ns-section-kicker {
+    color: #5FFFEA !important;
+}
+
+/* Teal action buttons keep dark labels for readable contrast */
+.stButton > button,
+.stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button,
+[data-testid="stFileUploader"] button,
+.stButton > button *,
+.stDownloadButton > button *,
+[data-testid="stFormSubmitButton"] > button *,
+[data-testid="stFileUploader"] button * {
+    color: #042522 !important;
+}
+
+/* Improve readability of helper text */
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stMarkdownContainer"] p,
+.ns-page-heading p,
+.ns-tagline,
+.ns-hero-footer,
+.ns-footer {
+    opacity: 1;
+}
+
+/* Keyboard focus */
+.stApp button:focus-visible,
+.stApp input:focus-visible,
+.stApp textarea:focus-visible,
+.stApp [role="radio"]:focus-visible,
+.stApp [role="checkbox"]:focus-visible,
+.stApp [role="combobox"]:focus-visible,
+.stApp [role="slider"]:focus-visible {
+    outline: 2px solid #5FFFEA !important;
+    outline-offset: 2px !important;
+}
+
+/* Mobile table containment */
+@media (max-width: 760px) {
+    [data-testid="stDataFrame"] {
+        max-width: 100%;
+    }
+}
